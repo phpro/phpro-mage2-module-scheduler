@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="system">
+            <group id="cron">
+                <group id="cron_general" sortOrder="1" translate="label" type="text" showInDefault="1" showInStore="0"
+                       showInWebsite="0">
+                    <label>General</label>
+                    <field id="running_job_lifetime" translate="label comment" type="text" sortOrder="10"
+                           showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Running Job Lifetime</label>
+                        <comment><![CDATA[Jobs in the status running will be deleted after the configured lifetime in minutes]]></comment>
+                    </field>
+                    <field id="timeline_view_limit" translate="label" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Limit Entries In Timeline View </label>
+                        <source_model>Phpro\Scheduler\Config\Source\TimelineLimit</source_model>
+                        <comment><![CDATA[Limit the number of entries on the timeline page]]></comment>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

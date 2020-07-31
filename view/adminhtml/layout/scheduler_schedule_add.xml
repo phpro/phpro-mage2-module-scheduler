@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Phpro\Scheduler\Block\Adminhtml\Schedule\Add" name="scheduler_schedule_add"/>
+        </referenceContainer>
+    </body>
+</page>

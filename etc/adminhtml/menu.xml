@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Phpro_Scheduler::cron_schedule" title="Cron Schedule" module="Phpro_Scheduler" sortOrder="100"
+             parent="Magento_Backend::system" resource="Phpro_Scheduler::schedule" translate="title"/>
+        <add id="Phpro_Scheduler::schedule" title="Schedule List" module="Phpro_Scheduler" sortOrder="100"
+             parent="Phpro_Scheduler::cron_schedule" action="scheduler/schedule/index" translate="title"
+             resource="Phpro_Scheduler::schedule"/>
+        <add id="Phpro_Scheduler::timeline" title="Schedule Timeline" module="Phpro_Scheduler" sortOrder="105"
+             parent="Phpro_Scheduler::cron_schedule" action="scheduler/timeline" translate="title"
+             resource="Phpro_Scheduler::timeline"/>
+        <add id="Phpro_Scheduler::jobconfiguration" title="Job Configuration" module="Phpro_Scheduler" sortOrder="110"
+             parent="Phpro_Scheduler::cron_schedule" action="scheduler/jobconfiguration" translate="title"
+             resource="Phpro_Scheduler::job_configuration"/>
+    </menu>
+</config>

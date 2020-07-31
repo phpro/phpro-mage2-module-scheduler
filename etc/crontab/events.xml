@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="default">
+        <observer name="cron_observer_to_remove_running_crons" instance="Phpro\Scheduler\Observer\RemoveRunningCrons" />
+    </event>
+</config>

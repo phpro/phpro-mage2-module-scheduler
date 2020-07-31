@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.jobconfiguration.rule.grid" as="grid">
+                <arguments>
+                    <argument name="id" xsi:type="string">jobconfigGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Phpro\Scheduler\Model\ResourceModel\Job\Collection</argument>
+                    <argument name="pager_visibility" xsi:type="boolean">false</argument>
+                </arguments>
+                <block class="Phpro\Scheduler\Block\Adminhtml\JobConfiguration\Massaction" as="grid.massaction">
+                    <arguments>
+                        <argument name="massaction_id_field" xsi:type="string">name</argument>
+                        <argument name="form_field_name" xsi:type="string">names</argument>
+                        <argument name="use_select_all" xsi:type="string">1</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="enable" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Enable</item>
+                                <item name="url" xsi:type="string">*/*/enable</item>
+                            </item>
+                            <item name="disable" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Disable</item>
+                                <item name="url" xsi:type="string">*/*/disable</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.block.jobconfiguration.columnSet" as="grid.columnSet">
+                    <arguments>
+                        <argument name="filter_visibility" xsi:type="boolean">false</argument>
+                    </arguments>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="index" xsi:type="string">name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="filter" xsi:type="boolean">false</argument>
+                            <argument name="sortable" xsi:type="boolean">false</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="instance">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Instance</argument>
+                            <argument name="index" xsi:type="string">instance</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="filter" xsi:type="boolean">false</argument>
+                            <argument name="sortable" xsi:type="boolean">false</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="method">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Method</argument>
+                            <argument name="index" xsi:type="string">method</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="filter" xsi:type="boolean">false</argument>
+                            <argument name="sortable" xsi:type="boolean">false</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="schedule">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Schedule</argument>
+                            <argument name="index" xsi:type="string">schedule</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="filter" xsi:type="boolean">false</argument>
+                            <argument name="sortable" xsi:type="boolean">false</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="status_name">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="index" xsi:type="string">status_name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="filter" xsi:type="boolean">false</argument>
+                            <argument name="sortable" xsi:type="boolean">false</argument>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

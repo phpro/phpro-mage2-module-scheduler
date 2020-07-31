@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::system">
+                    <resource id="Magento_Backend::tools">
+                        <resource id="Phpro_Scheduler::schedule" title="Cron Schedule List" sortOrder="100">
+                            <resource id="Phpro_Scheduler::schedule_save" title="Save Schedule Item" sortOrder="10"/>
+                            <resource id="Phpro_Scheduler::schedule_delete" title="Delete Schedule Items" sortOrder="20"/>
+                        </resource>
+                        <resource id="Phpro_Scheduler::timeline" title="Cron Schedule Timeline" sortOrder="105"/>
+                        <resource id="Phpro_Scheduler::job_configuration" title="Job Configuration" sortOrder="110"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

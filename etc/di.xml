@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="scheduler_grid_index_data_source" xsi:type="string">Phpro\Scheduler\Model\ResourceModel\Schedule\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Cron\Model\Schedule">
+        <plugin name="phpro_skip_disabled_jobs" type="Phpro\Scheduler\Plugin\SkipDisabledJobs" sortOrder="1"/>
+    </type>
+</config>

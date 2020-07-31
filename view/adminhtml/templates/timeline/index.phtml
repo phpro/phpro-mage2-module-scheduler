@@ -1,0 +1,106 @@
+<?php
+/** @var $block Phpro\Scheduler\Block\Adminhtml\Timeline\Index */
+/** @var array $jobCodes */
+$jobCodes = $block->getAvailableJobCodes();
+?>
+
+<?php if (count($jobCodes)== 0): ?>
+    <?php echo __('No tasks found'); ?>
+<?php else: ?>
+    <div class="row">
+
+        <div id="leftcolumn" class="col-xs-3 timeline-header">
+            <div class="row hours">
+                <div class="col-xs-12">
+                    <?php echo __('From'); ?>
+                    <?php echo $block->decorateTime($block->getStartTime(), false, 'H:i'); ?>
+                    <?php echo __('until'); ?>
+                    <?php echo $block->decorateTime($block->getEndTime(), false, 'H:i'); ?>
+                </div>
+            </div>
+            <?php foreach ($jobCodes as $jobCode): /* @var $jobCode string */ ?>
+                <div class="row">
+                    <div class="col-xs-12 job-code">
+                        <?php echo $jobCode; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="col-xs-9">
+            <div class="timeline-wrapper" style="width: <?php echo $block->getTimelinePanelWidth(); ?>px;">
+
+                <div id="now" style="left: <?php echo $block->getNowLine(); ?>px">
+                    <div class="arrow"><?php echo __('Now'); ?></div>
+                </div>
+
+                <div class="row hours" style="width: <?php echo $block->getTimelinePanelWidth(); ?>px;">
+                    <?php foreach ($block->getHours() as $hour): ?>
+                        <div class="hour"><?php echo $hour; ?></div>
+                    <?php endforeach; ?>
+                </div>
+
+                <?php foreach ($jobCodes as $jobCode): /* @var $schedule string */ ?>
+                    <div id="timeline_<?php echo $jobCode; ?>" class="row job-schedule" style="width: <?php echo $block->getTimelinePanelWidth(); ?>px;">
+                        <?php /** @var \Phpro\Scheduler\Data\Schedule $schedule  */ ?>
+                        <?php foreach ($block->getSchedulesForCode($jobCode) as $schedule): ?>
+                            <div class="tooltip">
+                                <?php if ($block->isCurrentlyRunning($schedule)): ?>
+                                    <div class="estimation" style="width: <?php echo $block->getRunningDuration($schedule); ?>px; left: <?php echo $block->getRunningOffset($schedule); ?>px;"></div>
+                                <?php endif; ?>
+                                <div class="task <?php echo $schedule->getStatus(); ?>" id="id_<?php echo $schedule->getScheduleId(); ?>" style="width: <?php echo $block->getDuration($schedule); ?>px; left: <?php echo $block->getOffset($schedule); ?>px;"></div>
+                                <div class="tooltip-content" style="left: <?php echo $block->getOffset($schedule); ?>px">
+                                    <div class="details">
+                                        <div class="details-headline <?php echo $schedule->getStatus(); ?>"><?php echo $schedule->getJobCode();?></div>
+                                        <div class="details-content">
+                                            <table>
+                                                <tr>
+                                                    <td class="label"><?php echo __('Status'); ?></td>
+                                                    <td>
+                                                        <div class="status"><?php echo $schedule->getStatus(); ?></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label"><?php echo __('Created at'); ?></td>
+                                                    <td><?php echo $schedule->getCreatedAt(); ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label"><?php echo __('Scheduled at'); ?></td>
+                                                    <td><?php echo $schedule->getScheduledAt(); ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label"><?php echo __('Executed at'); ?></td>
+                                                    <td><?php echo $schedule->getExecutedAt(); ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label"><?php echo __('Finished at'); ?></td>
+                                                    <td><?php echo $schedule->getFinishedAt(); ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label"><?php echo __('Id'); ?></td>
+                                                    <td><?php echo $schedule->getScheduleId(); ?></td>
+                                                </tr>
+                                                <?php if ($message = $schedule->getMessages()): ?>
+                                                    <tr>
+                                                        <td class="label" colspan="2"><?php echo __('Message'); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><?php echo $message; ?></td>
+                                                    </tr>
+                                                <?php endif; ?>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    require(['jquery', 'timeline']);
+</script>

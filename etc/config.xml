@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <cron>
+                <cron_general>
+                    <running_job_lifetime>720</running_job_lifetime>
+                    <timeline_view_limit>0</timeline_view_limit>
+                </cron_general>
+            </cron>
+        </system>
+    </default>
+</config>
