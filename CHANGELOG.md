@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.0.1] - 2020-08-01
+## [5.1.0] - 2020-08-01
 ### Added
 - Made it possible to limit the number of successful jobs on the timeline
 
