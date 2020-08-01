@@ -18,6 +18,11 @@
                         <source_model>Phpro\Scheduler\Config\Source\TimelineLimit</source_model>
                         <comment><![CDATA[Limit the number of entries on the timeline page]]></comment>
                     </field>
+                    <field id="limit_successful_jobs" translate="label comment" type="select" sortOrder="30" showInDefault="1">
+                        <label>Limit successful jobs in timeline</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment><![CDATA[Enabling this will limit the successful jobs to 50]]></comment>
+                    </field>
                 </group>
             </group>
         </section>
