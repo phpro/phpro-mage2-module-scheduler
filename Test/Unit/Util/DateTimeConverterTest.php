@@ -56,7 +56,7 @@ class DateTimeConverterTest extends TestCase
         $date = '2019-05-31 14:48:47';
         $result = $this->converter->toHourTimestamp($date);
 
-        $this->assertSame(1559368800, $result);
+        $this->assertSame(1559318400, $result);
     }
 
     /**
@@ -73,9 +73,9 @@ class DateTimeConverterTest extends TestCase
         $hourEnd = '2019-05-31 14:59:59';
         $resultEnd = $this->converter->toNextHourTimestamp($hourEnd);
 
-        $this->assertSame(1559372400, $result);
-        $this->assertSame(1559372400, $resultStart);
-        $this->assertSame(1559372400, $resultEnd);
+        $this->assertSame(1559322000, $result);
+        $this->assertSame(1559322000, $resultStart);
+        $this->assertSame(1559322000, $resultEnd);
     }
 
     /**
@@ -87,6 +87,6 @@ class DateTimeConverterTest extends TestCase
         $result = $this->converter->convertDate($date);
 
         $this->assertSame('', $this->converter->convertDate(null));
-        $this->assertSame('2019-05-28 05:44:05', $result);
+        $this->assertSame('2019-05-27 22:44:05', $result);
     }
 }
