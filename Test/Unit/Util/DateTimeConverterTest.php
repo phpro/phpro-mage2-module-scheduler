@@ -45,7 +45,7 @@ class DateTimeConverterTest extends TestCase
         $date = '2019-05-31 12:46:07';
         $result = $this->converter->toTimestamp($date);
 
-        $this->assertSame(1559331967, $result);
+        $this->assertSame(1559306767, $result);
     }
 
     /**
