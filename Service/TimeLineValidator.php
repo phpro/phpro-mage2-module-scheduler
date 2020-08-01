@@ -42,5 +42,4 @@ class TimeLineValidator
 
         return ($scheduleAt > $limit);
     }
-
 }

@@ -87,8 +87,8 @@ class Index extends Template
         /** @var Schedule $schedule */
         foreach ($this->cronDataService->getCronData() as $schedule) {
             $startTime = $schedule->getScheduledAt();
-            $minDate = is_null($minDate) ? $startTime : min($minDate, $startTime);
-            $maxDate = is_null($maxDate) ? $startTime : max($maxDate, $startTime);
+            $minDate = (null === $minDate) ? $startTime : min($minDate, $startTime);
+            $maxDate = (null === $maxDate) ? $startTime : max($maxDate, $startTime);
             $this->cronData[$schedule->getJobCode()][] = new ScheduleData(
                 $schedule->getStatus(),
                 $schedule->getId(),
@@ -188,7 +188,8 @@ class Index extends Template
         $duration = $schedule->getDuration() ?: 0;
 
         if ($schedule->getStatus() == Schedule::STATUS_RUNNING) {
-            $duration = $this->converter->toCurrentTimestamp() - $this->converter->toTimestamp($schedule->getExecutedAt());
+            $duration = $this->converter->toCurrentTimestamp()
+                - $this->converter->toTimestamp($schedule->getExecutedAt());
         }
 
         $duration = $duration / $this->zoom;

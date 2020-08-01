@@ -25,9 +25,9 @@ class CronDataService
         $data = [];
 
         foreach ($this->providers as $provider) {
-            $data = array_merge($data, $provider->provide());
+            $data[] = $provider->provide();
         }
 
-        return $data;
+        return array_merge([], ...$data);
     }
 }
