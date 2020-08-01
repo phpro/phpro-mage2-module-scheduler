@@ -4,9 +4,6 @@
 ### Added
 - Made it possible to limit the number of successful jobs on the timeline
 
-### Fixed
-- Unit tests
-
 ## [5.0.0] - 2020-07-31
 ### Added
 
