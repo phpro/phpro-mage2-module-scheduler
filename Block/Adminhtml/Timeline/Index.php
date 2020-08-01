@@ -10,6 +10,7 @@ use Magento\Backend\Block\Widget\Context;
 use Phpro\Scheduler\Config\CronConfiguration;
 use Phpro\Scheduler\Config\Source\TimelineLimit;
 use Phpro\Scheduler\Data\Schedule as ScheduleData;
+use Phpro\Scheduler\Service\CronDataService;
 use Phpro\Scheduler\Util\DateTimeConverter;
 
 /**
@@ -55,36 +56,39 @@ class Index extends Template
      */
     private $config;
 
+    /**
+     * @var CronDataService
+     */
+    private $cronDataService;
+
     public function __construct(
         Context $context,
-        Collection $collection,
         DateTime $dateTime,
         DateTimeConverter $converter,
         CronConfiguration $config,
+        CronDataService $cronDataService,
         array $data = []
     ) {
         $this->dateTime = $dateTime;
         $this->cronData = [];
         $this->converter = $converter;
         $this->config = $config;
+        $this->cronDataService = $cronDataService;
 
-        $this->initializeStartAndEndTime($collection);
+        $this->initializeStartAndEndTime();
         parent::__construct($context, $data);
     }
 
-    private function initializeStartAndEndTime(Collection $scheduleCollection): void
+    private function initializeStartAndEndTime(): void
     {
         $minDate = null;
         $maxDate = null;
 
         /** @var Schedule $schedule */
-        foreach ($scheduleCollection->getItems() as $schedule) {
+        foreach ($this->cronDataService->getCronData() as $schedule) {
             $startTime = $schedule->getScheduledAt();
-            if (($startTime === null) || !$this->canAddToTimeline($schedule)) {
-                continue;
-            }
-            $minDate = ($minDate === null) ? $startTime : min($minDate, $startTime);
-            $maxDate = ($maxDate === null) ? $startTime : max($maxDate, $startTime);
+            $minDate = is_null($minDate) ? $startTime : min($minDate, $startTime);
+            $maxDate = is_null($maxDate) ? $startTime : max($maxDate, $startTime);
             $this->cronData[$schedule->getJobCode()][] = new ScheduleData(
                 $schedule->getStatus(),
                 $schedule->getId(),
@@ -103,18 +107,6 @@ class Index extends Template
         if ($maxDate !== null) {
             $this->endTime = $this->converter->toNextHourTimestamp($maxDate);
         }
-    }
-
-    private function canAddToTimeline(Schedule $schedule): bool
-    {
-        if ($this->config->getTimelineLimit() === TimelineLimit::LIMIT_0) {
-            return true;
-        }
-
-        $limit = $this->converter->toCurrentTimestamp() - ($this->config->getTimelineLimit() * 3600);
-        $scheduledAt = $this->converter->toTimestamp($this->converter->convertDate($schedule->getScheduledAt()));
-
-        return ($scheduledAt > $limit);
     }
 
     private function configureStartTime($date): int
@@ -196,8 +188,7 @@ class Index extends Template
         $duration = $schedule->getDuration() ?: 0;
 
         if ($schedule->getStatus() == Schedule::STATUS_RUNNING) {
-            $duration = $this->converter->toCurrentTimestamp()
-                - $this->converter->toTimestamp($schedule->getExecutedAt());
+            $duration = $this->converter->toCurrentTimestamp() - $this->converter->toTimestamp($schedule->getExecutedAt());
         }
 
         $duration = $duration / $this->zoom;

@@ -11,4 +11,23 @@
     <type name="Magento\Cron\Model\Schedule">
         <plugin name="phpro_skip_disabled_jobs" type="Phpro\Scheduler\Plugin\SkipDisabledJobs" sortOrder="1"/>
     </type>
+    <type name="Phpro\Scheduler\Service\Provider\GenericProvider">
+        <arguments>
+            <argument name="statusFilter" xsi:type="array">
+                <item name="pending" xsi:type="const">Magento\Cron\Model\Schedule::STATUS_PENDING</item>
+                <item name="running" xsi:type="const">Magento\Cron\Model\Schedule::STATUS_RUNNING</item>
+                <item name="missed" xsi:type="const">Magento\Cron\Model\Schedule::STATUS_MISSED</item>
+                <item name="error" xsi:type="const">Magento\Cron\Model\Schedule::STATUS_ERROR</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Phpro\Scheduler\Service\CronDataService">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="generic_provider" xsi:type="object">Phpro\Scheduler\Service\Provider\GenericProvider</item>
+                <item name="success_data_provider" xsi:type="object">Phpro\Scheduler\Service\Provider\SuccessDataProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
