@@ -60,6 +60,9 @@ class CronNotRunning implements MessageInterface
         }
         /** @var Schedule $schedule */
         $schedule = $this->scheduleCollection->getLastItem();
+        if (null === $schedule->getCreatedAt()) {
+            return true;
+        }
         $secondsSinceLastJob = $this->converter->toTimestamp('now')
             - $this->converter->toTimestamp($schedule->getCreatedAt());
 
@@ -70,10 +73,13 @@ class CronNotRunning implements MessageInterface
     {
         /** @var Schedule $schedule */
         $schedule = $this->scheduleCollection->getLastItem();
+        $lastRun = null === $schedule->getCreatedAt()
+            ? 'NEVER'
+            : $this->timezone->date(new \DateTime($schedule->getCreatedAt()))->format('Y-m-d H:i:s');
 
         return __(sprintf(
             'The most recent cron job was created at <strong>%s</strong>. Make sure the Magento Cron is running',
-            $this->timezone->date(new \DateTime($schedule->getCreatedAt()))->format('Y-m-d H:i:s')
+            $lastRun
         ));
     }
 
