@@ -1,6 +1,8 @@
 <?php
 namespace Phpro\Scheduler\Model\ResourceModel\Schedule\Grid;
 
+use Magento\Cron\Model\ResourceModel\Schedule;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
@@ -20,23 +22,24 @@ class Collection extends SearchResult
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
      * @param string $mainTable
-     * @param null $resourceModel
+     * @param string $resourceModel
+     * @throws LocalizedException
      */
     public function __construct(
         EntityFactoryInterface $entityFactory,
         LoggerInterface $logger,
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
-        $mainTable,
-        $resourceModel = null
+        string $mainTable = 'cron_schedule',
+        string $resourceModel = Schedule::class
     ) {
         parent::__construct(
             $entityFactory,
             $logger,
             $fetchStrategy,
             $eventManager,
-            'cron_schedule',
-            \Magento\Cron\Model\ResourceModel\Schedule::class
+            $mainTable,
+            $resourceModel
         );
     }
 }
