@@ -120,11 +120,7 @@ class Index extends Template
     private function configureStartTime($date): int
     {
         if ($this->config->getTimelineLimit() === TimelineLimit::LIMIT_0) {
-            return $this->converter->toHourTimestamp(
-               null === $date
-                    ? 'now'
-                    : $date
-            );
+            return $this->converter->toHourTimestamp(null === $date ? 'now' : $date);
         }
 
         return ($this->converter->toHourTimestamp('now') - ($this->config->getTimelineLimit() * 3600));
