@@ -21,8 +21,6 @@ class Collection extends SearchResult
      * @param LoggerInterface $logger
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
-     * @param string $mainTable
-     * @param string $resourceModel
      * @throws LocalizedException
      */
     public function __construct(
