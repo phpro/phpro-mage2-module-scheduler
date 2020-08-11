@@ -29,17 +29,15 @@ class Collection extends SearchResult
         EntityFactoryInterface $entityFactory,
         LoggerInterface $logger,
         FetchStrategyInterface $fetchStrategy,
-        ManagerInterface $eventManager,
-        string $mainTable = 'cron_schedule',
-        string $resourceModel = Schedule::class
+        ManagerInterface $eventManager
     ) {
         parent::__construct(
             $entityFactory,
             $logger,
             $fetchStrategy,
             $eventManager,
-            $mainTable,
-            $resourceModel
+            'cron_schedule',
+            Schedule::class
         );
     }
 }
