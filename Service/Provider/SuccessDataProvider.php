@@ -42,7 +42,6 @@ class SuccessDataProvider implements ProviderInterface
     public function provideCronData(): array
     {
         $collection = $this->collectionFactory->create()
-            ->resetData()
             ->addFieldToFilter('status', ['eq' => Schedule::STATUS_SUCCESS])
             ->setOrder('executed_at', SortOrder::SORT_DESC);
 
