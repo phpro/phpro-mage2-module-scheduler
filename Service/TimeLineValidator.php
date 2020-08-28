@@ -26,7 +26,7 @@ class TimeLineValidator
         $this->converter = $converter;
     }
 
-    public function validate($schedule): bool
+    public function validate(Schedule $schedule): bool
     {
         if (null === $schedule->getScheduledAt()) {
             return false;
