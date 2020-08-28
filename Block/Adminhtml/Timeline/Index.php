@@ -75,7 +75,6 @@ class Index extends Template
         $this->config = $config;
         $this->cronDataService = $cronDataService;
 
-        $this->initializeStartAndEndTime();
         parent::__construct($context, $data);
     }
 
@@ -84,22 +83,13 @@ class Index extends Template
         $minDate = null;
         $maxDate = null;
 
-        /** @var Schedule $schedule */
+        /** @var ScheduleData $schedule */
         foreach ($this->cronDataService->getCronData() as $schedule) {
             $startTime = $schedule->getScheduledAt();
             $minDate = (null === $minDate) ? $startTime : min($minDate, $startTime);
             $maxDate = (null === $maxDate) ? $startTime : max($maxDate, $startTime);
-            $this->cronData[$schedule->getJobCode()][] = new ScheduleData(
-                $schedule->getStatus(),
-                $schedule->getId(),
-                $schedule->getJobCode(),
-                $this->converter->convertDate($schedule->getCreatedAt()),
-                $this->converter->convertDate($schedule->getScheduledAt()),
-                $this->converter->convertDate($schedule->getExecutedAt()),
-                $this->converter->convertDate($schedule->getFinishedAt()),
-                $this->getCronDuration($schedule),
-                $schedule->getMessages()
-            );
+
+            $this->cronData[$schedule->getJobCode()][] = $schedule;
         }
 
         $this->startTime = $this->configureStartTime($minDate);
@@ -118,30 +108,16 @@ class Index extends Template
         return ($this->converter->toHourTimestamp('now') - ($this->config->getTimelineLimit() * 3600));
     }
 
-    private function getCronDuration(Schedule $schedule): float
-    {
-        if ($schedule->getStatus() === Schedule::STATUS_ERROR) {
-            return 0;
-        }
-
-        $to_time = strtotime($schedule->getExecutedAt());
-        $from_time = strtotime($schedule->getFinishedAt());
-        $duration = abs($to_time - $from_time);
-
-        return $duration;
-    }
-
     public function getAvailableJobCodes(): array
     {
+        if (empty($this->cronData)) {
+            $this->initializeStartAndEndTime();
+        }
+
         $codes = array_keys($this->cronData);
         sort($codes);
 
         return $codes;
-    }
-
-    public function getJobs(): array
-    {
-        return $this->cronData;
     }
 
     public function getSchedulesForCode(string $jobCode): array

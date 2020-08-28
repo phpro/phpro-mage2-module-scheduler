@@ -5,5 +5,5 @@ namespace Phpro\Scheduler\Api\Service;
 
 interface ProviderInterface
 {
-    public function provide(): array;
+    public function provideCronData(): array;
 }

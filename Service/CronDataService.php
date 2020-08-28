@@ -11,23 +11,53 @@ use Phpro\Scheduler\Data\Schedule as ScheduleData;
 class CronDataService
 {
     /**
-     * @var ProviderInterface[]
+     * @var array
      */
     private $providers;
 
-    public function __construct(array $providers)
+    /**
+     * @var DateTimeConverter
+     */
+    private $converter;
+
+    public function __construct(array $providers, DateTimeConverter $converter)
     {
         $this->providers = $providers;
+        $this->converter = $converter;
+    }
+    
+    public function getCronData(): \Generator
+    {
+        foreach ($this->providers as $provider) {
+            foreach ($provider->provideCronData() as $schedule) {
+                if (false === ($schedule instanceof Schedule)) {
+                    continue;
+                }
+
+                yield new ScheduleData(
+                    $schedule->getStatus(),
+                    (int)$schedule->getId(),
+                    $schedule->getJobCode(),
+                    $this->converter->convertDate($schedule->getCreatedAt()),
+                    $this->converter->convertDate($schedule->getScheduledAt()),
+                    $this->converter->convertDate($schedule->getExecutedAt()),
+                    $this->converter->convertDate($schedule->getFinishedAt()),
+                    $this->calculateExecutionTime($schedule),
+                    $schedule->getMessages()
+                );
+            }
+        }
     }
 
-    public function getCronData(): array
+    private function calculateExecutionTime(Schedule $schedule): int
     {
-        $data = [];
-
-        foreach ($this->providers as $provider) {
-            $data[] = $provider->provide();
+        if ($schedule->getStatus() === Schedule::STATUS_ERROR) {
+            return 0;
         }
 
-        return array_merge([], ...$data);
+        $to = new \DateTimeImmutable($schedule->getExecutedAt() ?? '');
+        $from = new \DateTimeImmutable($schedule->getFinishedAt() ?? '');
+
+        return $from->getTimestamp() - $to->getTimestamp();
     }
 }
