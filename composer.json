@@ -11,11 +11,11 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "magento/framework": "102.0.*",
-        "magento/module-backend": "101.0.*",
-        "magento/module-cron": "100.3.*",
-        "magento/module-ui": "101.1.*"
+        "php": "^7.3",
+        "magento/framework": "^102.0|^103.0",
+        "magento/module-backend": "^101.0|^102.0",
+        "magento/module-cron": "^100.3",
+        "magento/module-ui": "^101.1"
     },
     "require-dev": {
         "magento/magento-coding-standard": "^4.0",
@@ -47,12 +47,12 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "ext-gd": "7.2",
-            "ext-xsl": "7.2",
-            "ext-bcmath": "7.2",
-            "ext-pdo_mysql": "7.2",
-            "ext-soap": "7.2",
-            "ext-zip": "7.2"
+            "ext-gd": "7.3",
+            "ext-xsl": "7.3",
+            "ext-bcmath": "7.3",
+            "ext-pdo_mysql": "7.3",
+            "ext-soap": "7.3",
+            "ext-zip": "7.3"
         }
     }
 }
