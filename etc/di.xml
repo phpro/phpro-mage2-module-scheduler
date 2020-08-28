@@ -4,13 +4,22 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="scheduler_grid_index_data_source" xsi:type="string">Phpro\Scheduler\Model\ResourceModel\Schedule\Grid\Collection</item>
+                <item name="scheduler_grid_index_data_source" xsi:type="string">phpro_schedule_collection</item>
             </argument>
         </arguments>
     </type>
+
+    <virtualType name="phpro_schedule_collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">cron_schedule</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Cron\Model\ResourceModel\Schedule</argument>
+        </arguments>
+    </virtualType>
+
     <type name="Magento\Cron\Model\Schedule">
         <plugin name="phpro_skip_disabled_jobs" type="Phpro\Scheduler\Plugin\SkipDisabledJobs" sortOrder="1"/>
     </type>
+
     <type name="Phpro\Scheduler\Service\Provider\GenericProvider">
         <arguments>
             <argument name="statusFilter" xsi:type="array">

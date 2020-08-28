@@ -22,7 +22,7 @@ class GenericProvider implements ProviderInterface
     private $validator;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $statusFilter;
 
@@ -36,7 +36,7 @@ class GenericProvider implements ProviderInterface
         $this->statusFilter = $statusFilter;
     }
 
-    public function provide(): array
+    public function provideCronData(): array
     {
         $collection = $this->collectionFactory
             ->create()

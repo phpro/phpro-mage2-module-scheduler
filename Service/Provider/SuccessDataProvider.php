@@ -39,7 +39,7 @@ class SuccessDataProvider implements ProviderInterface
         $this->validator = $validator;
     }
 
-    public function provide(): array
+    public function provideCronData(): array
     {
         $collection = $this->collectionFactory->create()
             ->resetData()
@@ -51,9 +51,9 @@ class SuccessDataProvider implements ProviderInterface
                 ->setPageSize(self::SUCCESS_LIMIT)
                 ->setCurPage(1);
         }
-        
+
         $validator = $this->validator;
-        return array_filter(iterator_to_array($collection), static function ($schedule) use ($validator) {
+        return array_filter(iterator_to_array($collection), static function (Schedule $schedule) use ($validator) {
             return $validator->validate($schedule);
         });
     }

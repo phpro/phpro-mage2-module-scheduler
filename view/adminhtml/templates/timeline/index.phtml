@@ -4,11 +4,10 @@
 $jobCodes = $block->getAvailableJobCodes();
 ?>
 
-<?php if (count($jobCodes)== 0): ?>
+<?php if (empty($jobCodes)): ?>
     <?php echo __('No tasks found'); ?>
 <?php else: ?>
     <div class="row">
-
         <div id="leftcolumn" class="col-xs-3 timeline-header">
             <div class="row hours">
                 <div class="col-xs-12">
