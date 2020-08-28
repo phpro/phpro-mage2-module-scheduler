@@ -24,7 +24,7 @@ class CronDataService
         $this->providers = $providers;
         $this->converter = $converter;
     }
-    
+
     public function getCronData(): \Generator
     {
         foreach ($this->providers as $provider) {

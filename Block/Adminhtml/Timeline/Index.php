@@ -5,7 +5,6 @@ namespace Phpro\Scheduler\Block\Adminhtml\Timeline;
 use Magento\Backend\Block\Template;
 use Magento\Cron\Model\Schedule;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Cron\Model\ResourceModel\Schedule\Collection;
 use Magento\Backend\Block\Widget\Context;
 use Phpro\Scheduler\Config\CronConfiguration;
 use Phpro\Scheduler\Config\Source\TimelineLimit;
@@ -88,12 +87,10 @@ class Index extends Template
             $startTime = $schedule->getScheduledAt();
             $minDate = (null === $minDate) ? $startTime : min($minDate, $startTime);
             $maxDate = (null === $maxDate) ? $startTime : max($maxDate, $startTime);
-
             $this->cronData[$schedule->getJobCode()][] = $schedule;
         }
 
         $this->startTime = $this->configureStartTime($minDate);
-
         if ($maxDate !== null) {
             $this->endTime = $this->converter->toNextHourTimestamp($maxDate);
         }

@@ -1,8 +1,13 @@
 # Changelog
 
-## [5.1.0] - 2020-08-01
+## [6.0.0]
 ### Added
 - Made it possible to limit the number of successful jobs on the timeline
+- Magento 2.4 compatibility
+- Dropped support magento versions < 2.3.x
+
+### Fixes
+- Empty timeline when there are no jobs in the system yet
 
 ## [5.0.0] - 2020-07-31
 ### Added
