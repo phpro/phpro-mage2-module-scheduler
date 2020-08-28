@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Phpro\Scheduler\Service;
 
 use Magento\Cron\Model\Schedule;
-use Phpro\Scheduler\Api\Service\ProviderInterface;
 use Phpro\Scheduler\Util\DateTimeConverter;
 use Phpro\Scheduler\Data\Schedule as ScheduleData;
 
