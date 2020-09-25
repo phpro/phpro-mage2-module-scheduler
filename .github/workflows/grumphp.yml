@@ -5,13 +5,18 @@ jobs:
     name: Running GrumPHP
     runs-on: ubuntu-latest
     env:
-      extensions: intl
+      extensions: intl, mbstring
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          extensions: ${{ env.extensions }}
       - name: Cache Composer Downloads
         uses: actions/cache@v1
         with:
@@ -31,5 +36,3 @@ jobs:
         with:
           args: install --prefer-dist
       - run: ./vendor/bin/grumphp run
-        with:
-          extensions: ${{ env.extensions }}
