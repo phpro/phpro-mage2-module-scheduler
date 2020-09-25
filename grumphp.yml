@@ -2,9 +2,6 @@ grumphp:
     tasks:
         psalm:
             config: psalm.xml
-            ignore_patterns:
-                - "collectionFactory"
-                - "vendor"
         phpcs:
             standard: "ruleset.xml"
             warning_severity: 5
