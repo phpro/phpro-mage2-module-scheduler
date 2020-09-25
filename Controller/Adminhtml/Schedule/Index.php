@@ -6,10 +6,6 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\Model\View\Result\Page;
 
-/**
- * Class Index
- * @package Phpro\Scheduler\Controller\Adminhtml\Schedule
- */
 class Index extends BackendAction
 {
     const ADMIN_RESOURCE = 'Phpro_Scheduler::schedule';
@@ -19,10 +15,6 @@ class Index extends BackendAction
      */
     protected $resultPageFactory;
 
-    /**
-     * @param Context     $context
-     * @param PageFactory $resultPageFactory
-     */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory
@@ -31,11 +23,6 @@ class Index extends BackendAction
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    /**
-     * Index action
-     *
-     * @return Page
-     */
     public function execute()
     {
         /** @var Page $resultPage */

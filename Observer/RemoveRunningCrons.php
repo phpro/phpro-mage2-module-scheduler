@@ -1,32 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Observer;
 
 use Magento\Cron\Model\ResourceModel\Schedule\Collection;
 use Magento\Cron\Model\Schedule;
-use Magento\Cron\Model\ScheduleFactory;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Phpro\Scheduler\Config\CronConfiguration;
+use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Model\ScheduleManager;
 
-/**
- * Class RemoveRunningCrons
- * @package Phpro\Scheduler\Observer
- */
 class RemoveRunningCrons implements ObserverInterface
 {
     /**
-     * @var ScheduleFactory
+     * @var CollectionFactory
      */
     private $scheduleFactory;
 
     /**
-     * @var Collection
+     * @var Collection|null
      */
-    private $runningCrons;
+    private $runningCrons = null;
 
     /**
-     * @var float|null
+     * @var int|null
      */
     private $jobLifeTimeInSeconds;
 
@@ -35,16 +34,21 @@ class RemoveRunningCrons implements ObserverInterface
      */
     private $config;
 
-    public function __construct(CronConfiguration $config, ScheduleFactory $scheduleFactory)
-    {
+    /**
+     * @var ScheduleManager
+     */
+    private $scheduleManager;
+
+    public function __construct(
+        CronConfiguration $config,
+        CollectionFactory $scheduleFactory,
+        ScheduleManager $scheduleManager
+    ) {
         $this->scheduleFactory = $scheduleFactory;
         $this->config = $config;
+        $this->scheduleManager = $scheduleManager;
     }
 
-    /**
-     * @param Observer $observer
-     * @return void
-     */
     public function execute(Observer $observer)
     {
         $jobLifeTimeInSeconds = $this->getJobLifeTimeInSeconds();
@@ -60,32 +64,25 @@ class RemoveRunningCrons implements ObserverInterface
             $timeDiffInSeconds = $now - $scheduledAt;
 
             if ($timeDiffInSeconds > $jobLifeTimeInSeconds) {
-                $schedule->delete();
+                $this->scheduleManager->removeSchedule($schedule);
             }
         }
     }
 
-    /**
-     * @return Collection
-     */
-    private function getRunningCrons()
+    private function getRunningCrons(): Collection
     {
-        if (!$this->runningCrons) {
+        if (null === $this->runningCrons) {
             $this->runningCrons = $this->scheduleFactory->create()
-                ->getCollection()
-                ->addFieldToFilter('status', Schedule::STATUS_RUNNING)
-                ->load();
+                ->addFieldToFilter('status', Schedule::STATUS_RUNNING);
         }
+
         return $this->runningCrons;
     }
 
-    /**
-     * @return int
-     */
-    private function getJobLifeTimeInSeconds()
+    private function getJobLifeTimeInSeconds(): int
     {
         if (!$this->jobLifeTimeInSeconds) {
-            $this->jobLifeTimeInSeconds = (int)$this->config->getRunningLifetime() * 60;
+            $this->jobLifeTimeInSeconds = $this->config->getRunningLifetime() * 60;
         }
         return $this->jobLifeTimeInSeconds;
     }

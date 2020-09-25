@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<psalm
+    reportMixedIssues="true"
+    strictBinaryOperands="true"
+    requireVoidReturnType="true"
+    phpVersion="7.3"
+    xmlns="https://getpsalm.org/schema/config">
+
+    <projectFiles>
+        <ignoreFiles>
+            <directory name="Test"/>
+            <directory name="vendor"/>
+            <directory name="Setup"/>
+        </ignoreFiles>
+        <directory name="." />
+    </projectFiles>
+
+    <issueHandlers>
+        <ImplicitToStringCast>
+            <errorLevel type="suppress">
+                <directory name="." />
+            </errorLevel>
+        </ImplicitToStringCast>
+
+        <DeprecatedInterface>
+            <errorLevel type="suppress">
+                <directory name="Model" />
+            </errorLevel>
+        </DeprecatedInterface>
+
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <directory name="Block" />
+            </errorLevel>
+        </DeprecatedClass>
+
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="Model" />
+                <directory name="Block" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+    </issueHandlers>
+</psalm>

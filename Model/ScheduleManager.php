@@ -1,24 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Model;
 
-use Magento\Cron\Model\ScheduleFactory;
 use Magento\Cron\Model\Schedule;
-use Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory;
+use Magento\Cron\Model\ResourceModel\Schedule as ResourceModel;
 use Magento\Framework\Stdlib\DateTime\DateTime;
+use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\ScheduleFactory;
 
-/**
- * Class ScheduleManager
- * @package Phpro\Scheduler\Model
- */
 class ScheduleManager
 {
-    const TIME_FORMAT = '%Y-%m-%d %H:%M:00';
-
-    /**
-     * @var DateTime
-     */
-    private $dateTime;
-
     /**
      * @var ScheduleFactory
      */
@@ -30,63 +23,40 @@ class ScheduleManager
     private $collectionFactory;
 
     /**
-     * ScheduleManager constructor.
-     *
-     * @param DateTime $dateTime
-     * @param ScheduleFactory $scheduleFactory
-     * @param CollectionFactory $collectionFactory
+     * @var ResourceModel
      */
+    private $resourceModel;
+
     public function __construct(
-        DateTime $dateTime,
         ScheduleFactory $scheduleFactory,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        ResourceModel $resourceModel
     ) {
-        $this->dateTime = $dateTime;
         $this->scheduleFactory = $scheduleFactory;
         $this->collectionFactory = $collectionFactory;
+        $this->resourceModel = $resourceModel;
     }
 
-    /**
-     * @param string $jobCode
-     * @throws \Exception
-     */
-    public function addJobToSchedule(string $jobCode)
+    public function addJobToSchedule(string $jobCode): void
     {
-        $schedule = $this->createSchedule();
-
+        $schedule = $this->scheduleFactory->create();
         $schedule->setJobCode($jobCode);
-        $schedule->getResource()->save($schedule);
+        $this->resourceModel->save($schedule);
     }
 
-    /**
-     * @param string $jobCode
-     */
-    public function removeScheduledTasksForJob(string $jobCode)
+    public function removeSchedule(Schedule $schedule): void
+    {
+        $this->resourceModel->delete($schedule);
+    }
+
+    public function removeScheduledTasksForJob(string $jobCode): void
     {
         $collection = $this->collectionFactory->create();
-
         $collection->addFieldToFilter('job_code', $jobCode);
         $collection->addFieldToFilter('status', 'pending');
 
         foreach ($collection as $schedule) {
-            /** @var Schedule $schedule */
-            $schedule->getResource()->delete($schedule);
+            $this->removeSchedule($schedule);
         }
-    }
-
-    /**
-     * @return Schedule
-     */
-    private function createSchedule()
-    {
-        /** @var Schedule $schedule */
-        $schedule = $this->scheduleFactory->create();
-        // Timestamp should always be stored in GMT
-        $now = $this->dateTime->gmtTimestamp();
-
-        $schedule->setCreatedAt(strftime(self::TIME_FORMAT, $now));
-        $schedule->setScheduledAt(strftime(self::TIME_FORMAT, $now + 60));
-
-        return $schedule;
     }
 }

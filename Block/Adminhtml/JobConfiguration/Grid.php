@@ -1,18 +1,13 @@
 <?php
 
+declare(strict_types=0);
+
 namespace Phpro\Scheduler\Block\Adminhtml\JobConfiguration;
 
 use Magento\Backend\Block\Widget\Grid\Container;
 
-/**
- * Class Grid
- * @package Phpro\Scheduler\Block\Adminhtml\JobConfiguration
- */
 class Grid extends Container
 {
-    /**
-     * @inheritdoc
-     */
     protected function _construct()
     {
         $this->_controller = "jobconfiguration";

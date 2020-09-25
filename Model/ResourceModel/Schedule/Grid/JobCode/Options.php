@@ -4,10 +4,6 @@ namespace Phpro\Scheduler\Model\ResourceModel\Schedule\Grid\JobCode;
 use Magento\Framework\Data\OptionSourceInterface;
 use Phpro\Scheduler\Model\JobRepository;
 
-/**
- * Class Options
- * @package Phpro\Scheduler\Model\ResourceModel\Schedule\Grid\JobCode
- */
 class Options implements OptionSourceInterface
 {
     /**
@@ -15,10 +11,6 @@ class Options implements OptionSourceInterface
      */
     private $jobs;
 
-    /**
-     * Options constructor.
-     * @param JobRepository $jobRepository
-     */
     public function __construct(JobRepository $jobRepository)
     {
         $this->jobs = [];
@@ -30,9 +22,6 @@ class Options implements OptionSourceInterface
         asort($this->jobs);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray()
     {
         $options = [];

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Controller\Adminhtml\Schedule;
 
 use Magento\Backend\App\Action as BackendAction;
@@ -6,10 +9,6 @@ use Magento\Backend\Model\View\Result\Redirect;
 use Phpro\Scheduler\Model\ScheduleManager;
 use Magento\Backend\App\Action\Context;
 
-/**
- * Class Save
- * @package Phpro\Scheduler\Controller\Adminhtml\Schedule
- */
 class Save extends BackendAction
 {
     const ADMIN_RESOURCE = 'Phpro_Scheduler::schedule_save';
@@ -19,25 +18,15 @@ class Save extends BackendAction
      */
     private $scheduler;
 
-    /**
-     * Save constructor.
-     *
-     * @param Context $context
-     * @param ScheduleManager $scheduler
-     */
     public function __construct(Context $context, ScheduleManager $scheduler)
     {
         parent::__construct($context);
         $this->scheduler = $scheduler;
     }
 
-    /**
-     * Save action
-     *
-     * @return Redirect
-     */
-    public function execute()
+    public function execute(): Redirect
     {
+        /** @psalm-suppress UndefinedInterfaceMethod */
         $data = $this->getRequest()->getPostValue();
 
         /** @var Redirect $resultRedirect */

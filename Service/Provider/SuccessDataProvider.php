@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phpro\Scheduler\Service\Provider;
 
-use Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory;
 use Magento\Cron\Model\Schedule;
 use Magento\Framework\Api\SortOrder;
 use Phpro\Scheduler\Api\Service\ProviderInterface;
 use Phpro\Scheduler\Config\CronConfiguration;
+use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
 use Phpro\Scheduler\Service\TimeLineValidator;
 
 class SuccessDataProvider implements ProviderInterface

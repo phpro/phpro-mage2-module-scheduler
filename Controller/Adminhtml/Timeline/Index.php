@@ -1,14 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Controller\Adminhtml\Timeline;
 
 use Magento\Backend\App\Action as BackendAction;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
-/**
- * Class Index
- * @package Phpro\Scheduler\Controller\Adminhtml\Timeline
- */
 class Index extends BackendAction
 {
     /**
@@ -16,10 +15,6 @@ class Index extends BackendAction
      */
     protected $resultPageFactory;
 
-    /**
-     * @param Context     $context
-     * @param PageFactory $resultPageFactory
-     */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory
@@ -28,21 +23,11 @@ class Index extends BackendAction
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    /**
-     * Check the permission to run it
-     *
-     * @return bool
-     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Phpro_Scheduler::timeline');
     }
 
-    /**
-     * Index action
-     *
-     * @return \Magento\Backend\Model\View\Result\Page
-     */
     public function execute()
     {
         /** @var \Magento\Backend\Model\View\Result\Page

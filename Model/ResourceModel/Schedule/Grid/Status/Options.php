@@ -4,10 +4,6 @@ namespace Phpro\Scheduler\Model\ResourceModel\Schedule\Grid\Status;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Cron\Model\Schedule;
 
-/**
- * Class Options
- * @package Phpro\Scheduler\Model\ResourceModel\Schedule\Grid\Status
- */
 class Options implements OptionSourceInterface
 {
     /**
@@ -15,9 +11,6 @@ class Options implements OptionSourceInterface
      */
     private $statuses;
 
-    /**
-     * Options constructor.
-     */
     public function __construct()
     {
         $this->statuses = [
@@ -29,9 +22,6 @@ class Options implements OptionSourceInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray()
     {
         $options = [];

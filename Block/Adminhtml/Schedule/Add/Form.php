@@ -1,4 +1,5 @@
 <?php
+
 namespace Phpro\Scheduler\Block\Adminhtml\Schedule\Add;
 
 use Magento\Backend\Block\Widget\Form\Generic;
@@ -9,8 +10,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\Data\FormFactory;
 
 /**
- * Class Form
- * @package Phpro\Scheduler\Block\Adminhtml\Schedule\Add
+ * @psalm-suppress DeprecatedClass
  */
 class Form extends Generic
 {
@@ -19,15 +19,6 @@ class Form extends Generic
      */
     private $jobCodeOptions;
 
-    /**
-     * Form constructor.
-     *
-     * @param Context $context
-     * @param Registry $registry
-     * @param FormFactory $formFactory
-     * @param Options $jobCodeOptions
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         Registry $registry,
@@ -39,9 +30,6 @@ class Form extends Generic
         $this->jobCodeOptions = $jobCodeOptions;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function _construct()
     {
         parent::_construct();
@@ -49,9 +37,6 @@ class Form extends Generic
         $this->setId('add_job_schedule');
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function _prepareForm()
     {
         /** @var DataForm $form */
@@ -60,7 +45,8 @@ class Form extends Generic
                 'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getData('action'),
-                    'method' => 'post']
+                    'method' => 'post'
+                ]
             ]
         );
 

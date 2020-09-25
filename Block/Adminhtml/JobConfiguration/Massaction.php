@@ -2,29 +2,29 @@
 
 namespace Phpro\Scheduler\Block\Adminhtml\JobConfiguration;
 
-/**
- * Class Massaction
- * @package Phpro\Scheduler\Block\Adminhtml\JobConfiguration
- */
-class Massaction extends \Magento\Backend\Block\Widget\Grid\Massaction
-{
+use Magento\Backend\Block\Widget\Grid\Massaction as GridMassAction;
 
+/**
+ * @method string getMassactionIdField()
+ */
+class Massaction extends GridMassAction
+{
     /**
-     * @return string
      * BUGFIX https://github.com/magento/magento2/issues/9610
      */
-    public function getGridIdsJson()
+    public function getGridIdsJson(): string
     {
-        if (!$this->getUseSelectAll()) {
+        if (!$this->getUseSelectAll() || !$parent = $this->getParentBlock()) {
             return '';
         }
+
         /** @var \Magento\Framework\Data\Collection $allIdsCollection */
-        $allIdsCollection = clone $this->getParentBlock()->getCollection();
+        $allIdsCollection = clone $parent->getCollection();
 
         if ($this->getMassactionIdField()) {
             $massActionIdField = $this->getMassactionIdField();
         } else {
-            $massActionIdField = $this->getParentBlock()->getMassactionIdField();
+            $massActionIdField = $parent->getMassactionIdField();
         }
 
         $gridIds = $allIdsCollection->setPageSize(0)->getColumnValues($massActionIdField);

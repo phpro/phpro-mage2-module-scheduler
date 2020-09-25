@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Plugin;
 
 use Phpro\Scheduler\Model\JobRepository;
 use Magento\Cron\Model\Schedule;
 
-/**
- * Class SkipDisabledJobs
- * @package Phpro\Scheduler\Plugin
- */
 class SkipDisabledJobs
 {
     /**
@@ -16,21 +14,12 @@ class SkipDisabledJobs
      */
     private $jobRepository;
 
-    /**
-     * SkipDisabledJobs constructor.
-     * @param JobRepository $jobRepository
-     */
     public function __construct(JobRepository $jobRepository)
     {
         $this->jobRepository = $jobRepository;
     }
 
-    /**
-     * @param Schedule $subject
-     * @param bool $result
-     * @return bool
-     */
-    public function afterTrySchedule(Schedule $subject, $result)
+    public function afterTrySchedule(Schedule $subject, bool $result): bool
     {
         if (!$this->jobRepository->isEnabled($subject->getJobCode())) {
             return false;

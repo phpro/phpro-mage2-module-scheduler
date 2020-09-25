@@ -1,56 +1,53 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Test\Model;
 
-use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Cron\Model\ScheduleFactory;
 use Magento\Cron\Model\Schedule;
 use Magento\Cron\Model\ResourceModel\Schedule as ScheduleResource;
-use Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory;
+use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
 use Phpro\Scheduler\Model\ScheduleManager;
+use Phpro\Scheduler\Factory\Schedule\ScheduleFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ScheduleManagerTest
- * @package Phpro\Scheduler\Test\Model
- */
 class ScheduleManagerTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DateTime
-     */
-    private $dateTime;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ScheduleFactory
+     * @var MockObject|ScheduleFactory
      */
     private $scheduleFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|CollectionFactory
+     * @var MockObject|CollectionFactory
      */
     private $collectionFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Schedule
+     * @var MockObject|Schedule
      */
     private $schedule;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ScheduleResource
+     * @var MockObject|ScheduleResource
      */
     private $scheduleResource;
 
-    protected function setUp()
+    /**
+     * @var MockObject\ScheduleManager
+     */
+    private $scheduleMananger;
+
+    /**
+     * @var ObjectManager
+     */
+    private $objectManager;
+
+    protected function setUp(): void
     {
-        $this->dateTime = $this->getMockBuilder(DateTime::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->scheduleFactory = $this->getMockBuilder('Magento\Cron\Model\ScheduleFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
-            ->getMock();
-
+        $this->scheduleFactory = $this->createMock(ScheduleFactory::class);
         $this->schedule = $this->getMockBuilder(Schedule::class)
             ->disableOriginalConstructor()
             ->setMethods(['setJobCode', 'setCreatedAt', 'setScheduledAt', 'getResource'])
@@ -60,45 +57,79 @@ class ScheduleManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->collectionFactory = $this->getMockBuilder('Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
-            ->getMock();
+        $this->collectionFactory = $this->createMock(CollectionFactory::class);
+
+        $this->scheduleMananger =  new ScheduleManager(
+            $this->scheduleFactory,
+            $this->collectionFactory,
+            $this->scheduleResource
+        );
+
+        $this->objectManager = new ObjectManager($this);
     }
 
-    /**
-     * @test
-     */
-    public function itCanAddJobToSchedule()
+    public function testItCanAddJobToSchedule(): void
     {
         $jobCode = 'test';
 
-        $this->dateTime->expects($this->once())
-            ->method('gmtTimestamp');
+        $schedule = $this->createMock(Schedule::class);
 
-        $this->schedule->expects($this->once())
+        $this->scheduleFactory
+            ->expects(static::once())
+            ->method('create')
+            ->willReturn($schedule);
+
+        $schedule
+            ->expects(static::once())
             ->method('setJobCode')
             ->with($jobCode);
 
-        $this->schedule->expects($this->once())
-            ->method('setCreatedAt');
-
-        $this->schedule->expects($this->once())
-            ->method('setScheduledAt');
-
-        $this->scheduleResource->expects($this->once())
+        $this->scheduleResource
+            ->expects(static::once())
             ->method('save')
-            ->with($this->schedule);
+            ->with($schedule);
 
-        $this->schedule->expects($this->once())
-            ->method('getResource')
-            ->willReturn($this->scheduleResource);
+        $this->scheduleManager->addJobToSchedule($jobCode);
+    }
 
-        $this->scheduleFactory->expects($this->once())
+    public function testItCanRemoveSchedule(): void
+    {
+        $schedule = $this->createMock(Schedule::class);
+
+        $this->scheduleResource
+            ->expects(static::once())
+            ->method('delete')
+            ->with($schedule);
+
+        $this->scheduleMananger->removeSchedule($schedule);
+    }
+
+    public function testItRemovesSchedulesByJob(): void
+    {
+        $jobCode = 'wilma_flinstone';
+        $collection = $this->objectManager->getCollectionMock(ScheduleResource\Collection::class, [
+            $schedule = $this->createMock(Schedule::class),
+        ]);
+
+        $this->collectionFactory
+            ->expects(static::once())
             ->method('create')
-            ->willReturn($this->schedule);
+            ->willReturn($collection);
 
-        $scheduleManger = new ScheduleManager($this->dateTime, $this->scheduleFactory, $this->collectionFactory);
-        $scheduleManger->addJobToSchedule($jobCode);
+        $collection
+            ->expects(static::at(0))
+            ->method('addFieldToFilter')
+            ->with('job_code', $jobCode);
+
+        $collection
+            ->expects(static::at(1))
+            ->method('addFieldToFilter')
+            ->with('status', 'pending');
+
+        $this->scheduleResource->expects(static::once())
+            ->method('delete')
+            ->with($schedule);
+
+        $this->scheduleMananger->removeScheduledTasksForJob($jobCode);
     }
 }
