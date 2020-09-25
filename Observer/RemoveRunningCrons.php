@@ -17,7 +17,7 @@ class RemoveRunningCrons implements ObserverInterface
     /**
      * @var CollectionFactory
      */
-    private $scheduleFactory;
+    private $collectionFactory;
 
     /**
      * @var Collection|null
@@ -41,10 +41,10 @@ class RemoveRunningCrons implements ObserverInterface
 
     public function __construct(
         CronConfiguration $config,
-        CollectionFactory $scheduleFactory,
+        CollectionFactory $collectionFactory,
         ScheduleManager $scheduleManager
     ) {
-        $this->scheduleFactory = $scheduleFactory;
+        $this->collectionFactory = $collectionFactory;
         $this->config = $config;
         $this->scheduleManager = $scheduleManager;
     }
@@ -72,7 +72,7 @@ class RemoveRunningCrons implements ObserverInterface
     private function getRunningCrons(): Collection
     {
         if (null === $this->runningCrons) {
-            $this->runningCrons = $this->scheduleFactory->create()
+            $this->runningCrons = $this->collectionFactory->create()
                 ->addFieldToFilter('status', Schedule::STATUS_RUNNING);
         }
 
