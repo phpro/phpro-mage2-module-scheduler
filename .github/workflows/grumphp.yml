@@ -4,6 +4,8 @@ jobs:
   build:
     name: Running GrumPHP
     runs-on: ubuntu-latest
+    env:
+      extensions: intl
     steps:
       - uses: actions/checkout@v2
       - name: Get Composer Cache Directory
@@ -29,3 +31,5 @@ jobs:
         with:
           args: install --prefer-dist
       - run: ./vendor/bin/grumphp run
+        with:
+          extensions: ${{ env.extensions }}
