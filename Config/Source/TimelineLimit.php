@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phpro\Scheduler\Config\Source;
 
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
-class TimelineLimit implements ArrayInterface
+class TimelineLimit implements OptionSourceInterface
 {
-    const LIMIT_0 = '0';
-    const LIMIT_6 = '6';
-    const LIMIT_12 = '12';
-    const LIMIT_24 = '24';
+    public const LIMIT_0 = 0;
+    private const LIMIT_6 = 6;
+    private const LIMIT_12 = 12;
+    private const LIMIT_24 = 24;
 
     public function toOptionArray(): array
     {

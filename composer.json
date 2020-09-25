@@ -18,9 +18,10 @@
         "magento/module-ui": "^101.1"
     },
     "require-dev": {
-        "magento/magento-coding-standard": "^4.0",
-        "phpro/grumphp": "^0.14",
-        "phpunit/phpunit": "^6.2"
+        "magento/magento-coding-standard": "^5.0",
+        "phpro/grumphp": "^1.0",
+        "phpunit/phpunit": "^8.5",
+        "vimeo/psalm": "^3.16"
     },
     "autoload": {
         "files": [

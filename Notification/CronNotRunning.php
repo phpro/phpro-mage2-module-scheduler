@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Phpro\Scheduler\Notification;
 
@@ -13,8 +14,9 @@ use Phpro\Scheduler\Util\DateTimeConverter;
 
 class CronNotRunning implements MessageInterface
 {
-    const CRON_IDLE_PERIOD_IN_SECONDS = 600; // 10 minutes
-    const MESSAGE_IDENTITY = 'phpro_scheduler_cron_not_running';
+    private const CRON_IDLE_PERIOD_IN_SECONDS = 600;
+    private const MESSAGE_IDENTITY = 'phpro_scheduler_cron_not_running';
+    private const NEVER_RAN_MESSAGE = 'NEVER';
 
     /**
      * @var AuthorizationInterface
@@ -60,7 +62,7 @@ class CronNotRunning implements MessageInterface
         }
         /** @var Schedule $schedule */
         $schedule = $this->scheduleCollection->getLastItem();
-        if (null === $schedule->getCreatedAt()) {
+        if (!$schedule->getCreatedAt()) {
             return true;
         }
         $secondsSinceLastJob = $this->converter->toTimestamp('now')
@@ -73,8 +75,8 @@ class CronNotRunning implements MessageInterface
     {
         /** @var Schedule $schedule */
         $schedule = $this->scheduleCollection->getLastItem();
-        $lastRun = null === $schedule->getCreatedAt()
-            ? 'NEVER'
+        $lastRun = !$schedule->getCreatedAt()
+            ? self::NEVER_RAN_MESSAGE
             : $this->timezone->date(new \DateTime($schedule->getCreatedAt()))->format('Y-m-d H:i:s');
 
         return __(sprintf(

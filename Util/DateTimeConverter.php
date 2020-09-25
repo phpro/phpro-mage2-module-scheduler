@@ -37,7 +37,7 @@ class DateTimeConverter
         return $this->timezone->date(new \DateTime($convertedDate))->getTimestamp();
     }
 
-    public function toCurrentTimestamp()
+    public function toCurrentTimestamp(): int
     {
         return $this->timezone->scopeTimeStamp();
     }

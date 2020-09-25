@@ -22,16 +22,16 @@ class CronConfiguration
         $this->config = $config;
     }
 
-    public function getRunningLifetime(): string
+    public function getRunningLifetime(): int
     {
-        return $this->config->getValue(self::XML_RUNNING_LIFETIME);
+        return (int) $this->config->getValue(self::XML_RUNNING_LIFETIME);
     }
 
-    public function getTimelineLimit(): string
+    public function getTimelineLimit(): int
     {
         $limit = $this->config->getValue(self::XML_TIMELINE_LIMIT);
 
-        return $limit ?: TimelineLimit::LIMIT_0;
+        return (int) $limit ?: TimelineLimit::LIMIT_0;
     }
 
     public function limitSuccessfulJobs(): bool

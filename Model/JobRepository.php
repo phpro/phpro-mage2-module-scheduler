@@ -6,10 +6,6 @@ use Magento\Cron\Model\Config;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Phpro\Scheduler\Model\ResourceModel\DisabledJob as DisabledJobResource;
 
-/**
- * Class JobRepository
- * @package Phpro\Scheduler\Model
- */
 class JobRepository
 {
     /**
@@ -32,13 +28,6 @@ class JobRepository
      */
     private $scheduleManager;
 
-    /**
-     * JobRepository constructor.
-     * @param Config $cronConfig
-     * @param DisabledJobFactory $disabledJobFactory
-     * @param DisabledJobResource $disabledJobResource
-     * @param ScheduleManager $scheduleManager
-     */
     public function __construct(
         Config $cronConfig,
         DisabledJobFactory $disabledJobFactory,
@@ -51,10 +40,7 @@ class JobRepository
         $this->scheduleManager = $scheduleManager;
     }
 
-    /**
-     * @return Job[]
-     */
-    public function getList()
+    public function getList(): array
     {
         $groups = $this->cronConfig->getJobs();
         $jobs = [];
@@ -89,10 +75,7 @@ class JobRepository
         return $jobs;
     }
 
-    /**
-     * @param string $jobCode
-     */
-    public function disable(string $jobCode)
+    public function disable(string $jobCode): void
     {
         /** @var DisabledJob $disableJob */
         $disableJob = $this->disabledJobFactory->create();
@@ -103,10 +86,7 @@ class JobRepository
         $this->scheduleManager->removeScheduledTasksForJob($jobCode);
     }
 
-    /**
-     * @param string $jobCode
-     */
-    public function enable(string $jobCode)
+    public function enable(string $jobCode): void
     {
         try {
             $disabledJob = $this->getDisabledJob($jobCode);
@@ -117,11 +97,7 @@ class JobRepository
         $this->disabledJobResource->delete($disabledJob);
     }
 
-    /**
-     * @param string $jobCode
-     * @return bool
-     */
-    public function isEnabled(string $jobCode)
+    public function isEnabled(string $jobCode): bool
     {
         try {
             $this->getDisabledJob($jobCode);
@@ -132,12 +108,7 @@ class JobRepository
         return false;
     }
 
-    /**
-     * @param string $jobCode
-     * @return DisabledJob
-     * @throws NoSuchEntityException
-     */
-    private function getDisabledJob(string $jobCode)
+    private function getDisabledJob(string $jobCode): DisabledJob
     {
         /** @var DisabledJob $disableJob */
         $disableJob = $this->disabledJobFactory->create();

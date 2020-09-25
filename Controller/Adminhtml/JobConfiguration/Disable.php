@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Controller\Adminhtml\JobConfiguration;
 
 use Magento\Backend\App\Action\Context;
@@ -7,10 +9,6 @@ use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Redirect;
 use Phpro\Scheduler\Model\JobRepository;
 
-/**
- * Class Disable
- * @package Phpro\Scheduler\Controller\Adminhtml\JobConfiguration
- */
 class Disable extends Action
 {
     const ADMIN_RESOURCE = 'Phpro_Scheduler::job_configuration';
@@ -20,11 +18,6 @@ class Disable extends Action
      */
     private $jobRepository;
 
-    /**
-     * Disable constructor.
-     * @param Context $context
-     * @param JobRepository $jobRepository
-     */
     public function __construct(
         Context $context,
         JobRepository $jobRepository
@@ -33,10 +26,7 @@ class Disable extends Action
         $this->jobRepository = $jobRepository;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function execute()
+    public function execute(): Redirect
     {
         $names = $this->getRequest()->getParam('names', []);
 

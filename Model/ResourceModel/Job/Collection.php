@@ -9,10 +9,6 @@ use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Data\Collection\EntityFactory;
 use Phpro\Scheduler\Model\JobRepository;
 
-/**
- * Class Collection
- * @package Phpro\Scheduler\Model\ResourceModel\Job
- */
 class Collection extends AbstractServiceCollection
 {
     /**
@@ -20,14 +16,6 @@ class Collection extends AbstractServiceCollection
      */
     private $jobRepository;
 
-    /**
-     * Collection constructor.
-     * @param EntityFactory $entityFactory
-     * @param FilterBuilder $filterBuilder
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param SortOrderBuilder $sortOrderBuilder
-     * @param JobRepository $jobRepository
-     */
     public function __construct(
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
@@ -40,9 +28,6 @@ class Collection extends AbstractServiceCollection
         $this->jobRepository = $jobRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadData($printQuery = false, $logQuery = false)
     {
         if (empty($this->_items)) {

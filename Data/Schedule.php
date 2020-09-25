@@ -47,7 +47,7 @@ class Schedule
     private $messages;
 
     /**
-     * @var float
+     * @var int
      */
     private $duration;
 
@@ -59,7 +59,7 @@ class Schedule
         string $scheduledAt,
         string $executedAt,
         string $finishedAt,
-        float $duration,
+        int $duration,
         ?string $messages
     ) {
         $this->status = $status;
@@ -113,7 +113,7 @@ class Schedule
         return $this->messages;
     }
 
-    public function getDuration(): float
+    public function getDuration(): int
     {
         return $this->duration;
     }

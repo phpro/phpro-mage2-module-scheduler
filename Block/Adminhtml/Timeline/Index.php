@@ -13,15 +13,14 @@ use Phpro\Scheduler\Service\CronDataService;
 use Phpro\Scheduler\Util\DateTimeConverter;
 
 /**
- * Class Index
- * @package Phpro\Scheduler\Block\Adminhtml\Timeline
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class Index extends Template
 {
     /**
      * @var array
      */
-    protected $cronData;
+    private $cronData;
 
     /**
      * @var int
@@ -96,7 +95,7 @@ class Index extends Template
         }
     }
 
-    private function configureStartTime($date): int
+    private function configureStartTime(?string $date): int
     {
         if ($this->config->getTimelineLimit() === TimelineLimit::LIMIT_0) {
             return $this->converter->toHourTimestamp(null === $date ? 'now' : $date);
@@ -147,7 +146,7 @@ class Index extends Template
     public function getRunningDuration(ScheduleData $schedule): float
     {
         if ($this->isCurrentlyRunning($schedule)) {
-            $duration = strtotime(360) - time();
+            $duration = strtotime('360') - time();
             $duration = $duration / $this->zoom;
 
             return $duration;
@@ -166,6 +165,7 @@ class Index extends Template
         }
 
         $duration = $duration / $this->zoom;
+        /** @psalm-suppress InvalidOperand */
         $duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
         $duration = max($duration, 3);
 
@@ -204,7 +204,7 @@ class Index extends Template
         $hour = $this->getStartTime();
 
         do {
-            $hours[] = $this->decorateTime($hour, false, 'Y-m-d H:i');
+            $hours[] = $this->decorateTime((string) $hour, false, 'Y-m-d H:i');
             $hour += 3600;
         } while ($hour <= $this->getEndTime());
 

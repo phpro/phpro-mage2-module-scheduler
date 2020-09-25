@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phpro\Scheduler\Service;
@@ -54,8 +55,8 @@ class CronDataService
             return 0;
         }
 
-        $to = new \DateTimeImmutable($schedule->getExecutedAt() ?? '');
-        $from = new \DateTimeImmutable($schedule->getFinishedAt() ?? '');
+        $to = new \DateTimeImmutable($schedule->getExecutedAt() ?: '');
+        $from = new \DateTimeImmutable($schedule->getFinishedAt() ?: '');
 
         return $from->getTimestamp() - $to->getTimestamp();
     }

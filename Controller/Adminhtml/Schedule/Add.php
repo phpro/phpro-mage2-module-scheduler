@@ -6,10 +6,6 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\Model\View\Result\Page;
 
-/**
- * Class Add
- * @package Phpro\Scheduler\Controller\Adminhtml\Schedule
- */
 class Add extends BackendAction
 {
     const ADMIN_RESOURCE = 'Phpro_Scheduler::schedule_save';
@@ -19,21 +15,12 @@ class Add extends BackendAction
      */
     protected $resultPageFactory;
 
-    /**
-     * @param Context     $context
-     * @param PageFactory $resultPageFactory
-     */
     public function __construct(Context $context, PageFactory $resultPageFactory)
     {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    /**
-     * Create action
-     *
-     * @return Page
-     */
     public function execute()
     {
         /** @var Page $resultPage */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phpro\Scheduler\Test\Util;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -18,7 +20,7 @@ class DateTimeConverterTest extends TestCase
      */
     private $converter;
 
-    public function setUp()
+    public function setUp(): void
     {
         /** @var TimezoneInterface $timezone */
         $scopeConfig = $this->createConfiguredMock(ScopeConfigInterface::class, [
