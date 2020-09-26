@@ -7,7 +7,7 @@ namespace Phpro\Scheduler\Test\Model;
 use Magento\Cron\Model\Schedule;
 use Magento\Cron\Model\ResourceModel\Schedule as ScheduleResource;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
-use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\CronCollectionFactory;
 use Phpro\Scheduler\Model\ScheduleManager;
 use Phpro\Scheduler\Factory\Schedule\ScheduleFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,7 +21,7 @@ class ScheduleManagerTest extends TestCase
     private $scheduleFactory;
 
     /**
-     * @var MockObject|CollectionFactory
+     * @var MockObject|CronCollectionFactory
      */
     private $collectionFactory;
 
@@ -57,7 +57,7 @@ class ScheduleManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->collectionFactory = $this->createMock(CollectionFactory::class);
+        $this->collectionFactory = $this->createMock(CronCollectionFactory::class);
 
         $this->scheduleMananger =  new ScheduleManager(
             $this->scheduleFactory,

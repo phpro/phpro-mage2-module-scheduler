@@ -7,7 +7,7 @@ namespace Phpro\Scheduler\Model;
 use Magento\Cron\Model\Schedule;
 use Magento\Cron\Model\ResourceModel\Schedule as ResourceModel;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\CronCollectionFactory;
 use Phpro\Scheduler\Factory\Schedule\ScheduleFactory;
 
 class ScheduleManager
@@ -18,7 +18,7 @@ class ScheduleManager
     private $scheduleFactory;
 
     /**
-     * @var CollectionFactory
+     * @var CronCollectionFactory
      */
     private $collectionFactory;
 
@@ -29,7 +29,7 @@ class ScheduleManager
 
     public function __construct(
         ScheduleFactory $scheduleFactory,
-        CollectionFactory $collectionFactory,
+        CronCollectionFactory $collectionFactory,
         ResourceModel $resourceModel
     ) {
         $this->scheduleFactory = $scheduleFactory;

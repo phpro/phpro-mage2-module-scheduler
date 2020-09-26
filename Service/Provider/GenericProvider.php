@@ -7,13 +7,13 @@ namespace Phpro\Scheduler\Service\Provider;
 use Magento\Cron\Model\Schedule;
 use Magento\Framework\Api\SortOrder;
 use Phpro\Scheduler\Api\Service\ProviderInterface;
-use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\CronCollectionFactory;
 use Phpro\Scheduler\Service\TimeLineValidator;
 
 class GenericProvider implements ProviderInterface
 {
     /**
-     * @var CollectionFactory
+     * @var CronCollectionFactory
      */
     private $collectionFactory;
 
@@ -28,7 +28,7 @@ class GenericProvider implements ProviderInterface
     private $statusFilter;
 
     public function __construct(
-        CollectionFactory $collectionFactory,
+        CronCollectionFactory $collectionFactory,
         TimeLineValidator $validator,
         array $statusFilter
     ) {

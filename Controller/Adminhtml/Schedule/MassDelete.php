@@ -10,7 +10,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
-use Phpro\Scheduler\Model\ResourceModel\Schedule\ScheduleCollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\ScheduleCollectionFactory;
 
 /**
  * @psalm-suppress UndefinedInterfaceMethod
@@ -27,13 +27,13 @@ class MassDelete extends Action
     /**
      * @var ScheduleCollectionFactory
      */
-    private $collection;
+    private $collectionFactory;
 
-    public function __construct(Action\Context $context, Filter $filter, ScheduleCollectionFactory $collection)
+    public function __construct(Action\Context $context, Filter $filter, ScheduleCollectionFactory $collectionFactory)
     {
         parent::__construct($context);
         $this->filter = $filter;
-        $this->collection = $collection;
+        $this->collectionFactory = $collectionFactory;
     }
 
     public function execute(): Redirect
@@ -43,7 +43,7 @@ class MassDelete extends Action
             throw new NotFoundException(new Phrase(__('Schedule not found.')));
         }
 
-        $schedules = $this->filter->getCollection($this->collection->create());
+        $schedules = $this->filter->getCollection($this->collectionFactory->create());
         $size = $schedules->getSize();
         foreach ($schedules as $schedule) {
             $schedule->delete();

@@ -4,6 +4,7 @@ namespace Phpro\Scheduler\Model;
 
 use Magento\Cron\Model\Config;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Phpro\Scheduler\Factory\DisabledJobFactory;
 use Phpro\Scheduler\Model\ResourceModel\DisabledJob as DisabledJobResource;
 
 class JobRepository
