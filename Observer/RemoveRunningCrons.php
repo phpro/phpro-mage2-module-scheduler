@@ -9,13 +9,13 @@ use Magento\Cron\Model\Schedule;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Phpro\Scheduler\Config\CronConfiguration;
-use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\CronCollectionFactory;
 use Phpro\Scheduler\Model\ScheduleManager;
 
 class RemoveRunningCrons implements ObserverInterface
 {
     /**
-     * @var CollectionFactory
+     * @var CronCollectionFactory
      */
     private $collectionFactory;
 
@@ -41,7 +41,7 @@ class RemoveRunningCrons implements ObserverInterface
 
     public function __construct(
         CronConfiguration $config,
-        CollectionFactory $collectionFactory,
+        CronCollectionFactory $collectionFactory,
         ScheduleManager $scheduleManager
     ) {
         $this->collectionFactory = $collectionFactory;

@@ -8,7 +8,7 @@ use Magento\Cron\Model\Schedule;
 use Magento\Framework\Api\SortOrder;
 use Phpro\Scheduler\Api\Service\ProviderInterface;
 use Phpro\Scheduler\Config\CronConfiguration;
-use Phpro\Scheduler\Factory\Schedule\CollectionFactory;
+use Phpro\Scheduler\Factory\Schedule\CronCollectionFactory;
 use Phpro\Scheduler\Service\TimeLineValidator;
 
 class SuccessDataProvider implements ProviderInterface
@@ -16,7 +16,7 @@ class SuccessDataProvider implements ProviderInterface
     private const SUCCESS_LIMIT = 50;
 
     /**
-     * @var CollectionFactory
+     * @var CronCollectionFactory
      */
     private $collectionFactory;
 
@@ -31,7 +31,7 @@ class SuccessDataProvider implements ProviderInterface
     private $validator;
 
     public function __construct(
-        CollectionFactory $collectionFactory,
+        CronCollectionFactory $collectionFactory,
         CronConfiguration $config,
         TimeLineValidator $validator
     ) {

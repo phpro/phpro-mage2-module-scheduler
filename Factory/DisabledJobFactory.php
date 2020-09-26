@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Phpro\Scheduler\Factory\Schedule;
+namespace Phpro\Scheduler\Factory;
 
-use Magento\Cron\Model\ResourceModel\Schedule\Collection;
 use Magento\Framework\ObjectManagerInterface;
+use Phpro\Scheduler\Model\DisabledJob;
 
-class CollectionFactory
+class DisabledJobFactory
 {
     /**
      * @var ObjectManagerInterface
@@ -19,11 +19,8 @@ class CollectionFactory
         $this->objectManager = $objectManager;
     }
 
-    public function create(array $data = []): Collection
+    public function create(array $data = []): DisabledJob
     {
-        return $this->objectManager->create(
-            Collection::class,
-            $data
-        );
+        return $this->objectManager->create(DisabledJob::class, $data);
     }
 }
