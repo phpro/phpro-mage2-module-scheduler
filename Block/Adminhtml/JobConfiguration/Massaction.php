@@ -3,6 +3,7 @@
 namespace Phpro\Scheduler\Block\Adminhtml\JobConfiguration;
 
 use Magento\Backend\Block\Widget\Grid\Massaction as GridMassAction;
+use Magento\Framework\Data\Collection;
 
 /**
  * @method string getMassactionIdField()
@@ -14,11 +15,13 @@ class Massaction extends GridMassAction
      */
     public function getGridIdsJson(): string
     {
-        if (!$this->getUseSelectAll() || !$parent = $this->getParentBlock()) {
+        $parent = $this->getParentBlock();
+
+        if (is_bool($parent) || !$this->getUseSelectAll()) {
             return '';
         }
 
-        /** @var \Magento\Framework\Data\Collection $allIdsCollection */
+        /** @var Collection $allIdsCollection */
         $allIdsCollection = clone $parent->getCollection();
 
         if ($this->getMassactionIdField()) {
@@ -29,7 +32,7 @@ class Massaction extends GridMassAction
 
         $gridIds = $allIdsCollection->setPageSize(0)->getColumnValues($massActionIdField);
         if (!empty($gridIds)) {
-            return join(",", $gridIds);
+            return implode(",", $gridIds);
         }
         return '';
     }

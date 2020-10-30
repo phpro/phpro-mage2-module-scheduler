@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "magento/magento-coding-standard": "^5.0",
-        "phpro/grumphp": "^1.0",
+        "phpro/grumphp-shim": "^1.0",
         "phpunit/phpunit": "^8.5",
         "vimeo/psalm": "^3.16"
     },
