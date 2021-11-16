@@ -27,7 +27,7 @@ class SkipDisabledJobs
             return false;
         }
 
-        // check if we find the a schedule with the same scheduled_at and the scheduled_manually active
+        // check if we find a schedule with the same scheduled_at and the scheduled_manually active
         // if so, we return true
         $pendingJobs = $this->scheduleFactory->create()->getCollection();
         $pendingJobs->addFieldToFilter('status', Schedule::STATUS_PENDING);
