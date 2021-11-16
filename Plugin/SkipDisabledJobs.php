@@ -21,6 +21,10 @@ class SkipDisabledJobs
 
     public function afterTrySchedule(Schedule $subject, bool $result): bool
     {
+        if($subject->getScheduledManually() === true){
+            return true;
+        }
+
         if (!$this->jobRepository->isEnabled($subject->getJobCode())) {
             return false;
         }

@@ -41,6 +41,7 @@ class ScheduleManager
     {
         $schedule = $this->scheduleFactory->create();
         $schedule->setJobCode($jobCode);
+        $schedule->setScheduledManually(true);
         $this->resourceModel->save($schedule);
     }
 

@@ -7,4 +7,8 @@
       <column name="job_code"/>
     </constraint>
   </table>
+
+  <table name="cron_schedule">
+    <column xsi:type="smallint" name="scheduled_manually" unsigned="true" nullable="false" identity="false" default="0" comment="Was added manually"/>
+  </table>
 </schema>
