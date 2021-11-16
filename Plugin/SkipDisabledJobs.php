@@ -21,7 +21,7 @@ class SkipDisabledJobs
 
     public function afterTrySchedule(Schedule $subject, bool $result): bool
     {
-        if ($subject->getScheduledManually() === true) {
+        if ($subject->getScheduledManually()) {
             return true;
         }
 
