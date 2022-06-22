@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.1.0]
+### Added
+- Support PHP 8.x
+
 ## [6.0.0]
 ### Added
 - Made it possible to limit the number of successful jobs on the timeline

@@ -98,7 +98,7 @@ class Index extends Template
     private function configureStartTime(?string $date): int
     {
         if ($this->config->getTimelineLimit() === TimelineLimit::LIMIT_0) {
-            return $this->converter->toHourTimestamp(null === $date ? 'now' : $date);
+            return $this->converter->toHourTimestamp($date ?? 'now');
         }
 
         return ($this->converter->toHourTimestamp('now') - ($this->config->getTimelineLimit() * 3600));
@@ -136,20 +136,14 @@ class Index extends Template
 
     public function isCurrentlyRunning(ScheduleData $schedule): bool
     {
-        if ($schedule->getStatus() == Schedule::STATUS_RUNNING) {
-            return true;
-        }
-
-        return false;
+        return $schedule->getStatus() == Schedule::STATUS_RUNNING;
     }
 
     public function getRunningDuration(ScheduleData $schedule): float
     {
         if ($this->isCurrentlyRunning($schedule)) {
             $duration = strtotime('360') - time();
-            $duration = $duration / $this->zoom;
-
-            return $duration;
+            return $duration / $this->zoom;
         }
 
         return $this->getDuration($schedule);
@@ -164,12 +158,10 @@ class Index extends Template
                 - $this->converter->toTimestamp($schedule->getExecutedAt());
         }
 
-        $duration = $duration / $this->zoom;
+        $duration /= $this->zoom;
         /** @psalm-suppress InvalidOperand */
         $duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
-        $duration = max($duration, 3);
-
-        return $duration;
+        return max($duration, 3);
     }
 
     public function getOffset(ScheduleData $schedule): float
