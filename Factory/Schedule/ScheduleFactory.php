@@ -37,8 +37,8 @@ class ScheduleFactory
             $data
         );
         $now = $this->dateTime->gmtTimestamp();
-        $schedule->setCreatedAt(strftime(self::TIME_FORMAT, $now));
-        $schedule->setScheduledAt(strftime(self::TIME_FORMAT, $now + 60));
+        $schedule->setCreatedAt(date(self::TIME_FORMAT, $now));
+        $schedule->setScheduledAt(date(self::TIME_FORMAT, $now + 60));
 
         return $schedule;
     }
