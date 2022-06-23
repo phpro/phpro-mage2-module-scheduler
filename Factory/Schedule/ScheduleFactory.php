@@ -10,7 +10,7 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class ScheduleFactory
 {
-    private const TIME_FORMAT = '%Y-%m-%d %H:%M:00';
+    private const TIME_FORMAT = 'Y-m-d H:i:00';
 
     /**
      * @var ObjectManagerInterface
