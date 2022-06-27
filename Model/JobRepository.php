@@ -48,10 +48,10 @@ class JobRepository
 
         foreach ($groups as $group => $jobsConfiguration) {
             foreach ($jobsConfiguration as $jobConfiguration) {
-                $name = isset($jobConfiguration['name']) ? $jobConfiguration['name'] : '';
-                $instance = isset($jobConfiguration['instance']) ? $jobConfiguration['instance'] : '';
-                $method = isset($jobConfiguration['method']) ? $jobConfiguration['method'] : '';
-                $schedule = isset($jobConfiguration['schedule']) ? $jobConfiguration['schedule'] : '';
+                $name = $jobConfiguration['name'] ?? '';
+                $instance = $jobConfiguration['instance'] ?? '';
+                $method = $jobConfiguration['method'] ?? '';
+                $schedule = $jobConfiguration['schedule'] ?? '';
                 $status = Job::STATUS_ENABLED;
 
                 if (isset($jobConfiguration['name'])) {

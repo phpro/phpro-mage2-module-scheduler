@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "php": "^7.3",
-        "magento/framework": "^102.0|^103.0",
+        "php": "^8.0",
+        "magento/framework": "^103.0",
         "magento/module-backend": "^101.0|^102.0",
         "magento/module-cron": "^100.3",
         "magento/module-ui": "^101.1"

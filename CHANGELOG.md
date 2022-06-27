@@ -1,5 +1,10 @@
 # Changelog
 
+## [7.0.0]
+### Added
+- Support PHP 8.x
+- Drop Support Magento versions < 2.4.4
+
 ## [6.0.0]
 ### Added
 - Made it possible to limit the number of successful jobs on the timeline

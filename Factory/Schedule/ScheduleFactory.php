@@ -10,7 +10,7 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class ScheduleFactory
 {
-    private const TIME_FORMAT = '%Y-%m-%d %H:%M:00';
+    private const TIME_FORMAT = 'Y-m-d H:i:00';
 
     /**
      * @var ObjectManagerInterface
@@ -37,8 +37,8 @@ class ScheduleFactory
             $data
         );
         $now = $this->dateTime->gmtTimestamp();
-        $schedule->setCreatedAt(strftime(self::TIME_FORMAT, $now));
-        $schedule->setScheduledAt(strftime(self::TIME_FORMAT, $now + 60));
+        $schedule->setCreatedAt(date(self::TIME_FORMAT, $now));
+        $schedule->setScheduledAt(date(self::TIME_FORMAT, $now + 60));
 
         return $schedule;
     }
