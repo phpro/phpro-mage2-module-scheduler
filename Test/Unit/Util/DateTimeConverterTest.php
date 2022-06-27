@@ -33,7 +33,8 @@ class DateTimeConverterTest extends TestCase
             $this->createMock(DateTime::class),
             $scopeConfig,
             '',
-            ''
+            '',
+            $this->createMock(DateTime\Intl\DateFormatterFactory::class)
         );
 
         $this->converter = new DateTimeConverter($timezone);
