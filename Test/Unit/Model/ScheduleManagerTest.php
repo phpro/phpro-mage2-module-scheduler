@@ -38,7 +38,7 @@ class ScheduleManagerTest extends TestCase
     /**
      * @var MockObject\ScheduleManager
      */
-    private $scheduleMananger;
+    private $scheduleManager;
 
     /**
      * @var ObjectManager
@@ -50,7 +50,7 @@ class ScheduleManagerTest extends TestCase
         $this->scheduleFactory = $this->createMock(ScheduleFactory::class);
         $this->schedule = $this->getMockBuilder(Schedule::class)
             ->disableOriginalConstructor()
-            ->setMethods(['setJobCode', 'setCreatedAt', 'setScheduledAt', 'getResource'])
+            ->addMethods(['setJobCode', 'setCreatedAt', 'setScheduledAt'])
             ->getMock();
 
         $this->scheduleResource = $this->getMockBuilder(ScheduleResource::class)
@@ -59,7 +59,7 @@ class ScheduleManagerTest extends TestCase
 
         $this->collectionFactory = $this->createMock(CronCollectionFactory::class);
 
-        $this->scheduleMananger =  new ScheduleManager(
+        $this->scheduleManager =  new ScheduleManager(
             $this->scheduleFactory,
             $this->collectionFactory,
             $this->scheduleResource
@@ -72,14 +72,12 @@ class ScheduleManagerTest extends TestCase
     {
         $jobCode = 'test';
 
-        $schedule = $this->createMock(Schedule::class);
-
         $this->scheduleFactory
             ->expects(static::once())
             ->method('create')
-            ->willReturn($schedule);
+            ->willReturn($this->schedule);
 
-        $schedule
+        $this->schedule
             ->expects(static::once())
             ->method('setJobCode')
             ->with($jobCode);
@@ -87,7 +85,7 @@ class ScheduleManagerTest extends TestCase
         $this->scheduleResource
             ->expects(static::once())
             ->method('save')
-            ->with($schedule);
+            ->with($this->schedule);
 
         $this->scheduleManager->addJobToSchedule($jobCode);
     }
@@ -101,7 +99,7 @@ class ScheduleManagerTest extends TestCase
             ->method('delete')
             ->with($schedule);
 
-        $this->scheduleMananger->removeSchedule($schedule);
+        $this->scheduleManager->removeSchedule($schedule);
     }
 
     public function testItRemovesSchedulesByJob(): void
@@ -117,19 +115,13 @@ class ScheduleManagerTest extends TestCase
             ->willReturn($collection);
 
         $collection
-            ->expects(static::at(0))
             ->method('addFieldToFilter')
-            ->with('job_code', $jobCode);
-
-        $collection
-            ->expects(static::at(1))
-            ->method('addFieldToFilter')
-            ->with('status', 'pending');
+            ->withConsecutive(['job_code',$jobCode],['status','pending']);
 
         $this->scheduleResource->expects(static::once())
             ->method('delete')
             ->with($schedule);
 
-        $this->scheduleMananger->removeScheduledTasksForJob($jobCode);
+        $this->scheduleManager->removeScheduledTasksForJob($jobCode);
     }
 }

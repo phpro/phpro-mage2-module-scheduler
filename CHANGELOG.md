@@ -1,6 +1,6 @@
 # Changelog
 
-## [7.0.0]
+## [8.0.0]
 ### Added
 - Support PHP 8.x
 - Drop Support Magento versions < 2.4.4

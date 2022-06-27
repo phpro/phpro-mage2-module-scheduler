@@ -38,7 +38,7 @@ class TimeLineValidator
             return true;
         }
 
-        $limit = $this->converter->toCurrentTimestamp() - ((int) $limit * 3600);
+        $limit = $this->converter->toCurrentTimestamp() - ($limit * 3600);
         $scheduleAt = $this->converter->toTimestamp($this->converter->convertDate($schedule->getScheduledAt()));
 
         return ($scheduleAt > $limit);
