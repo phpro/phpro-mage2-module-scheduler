@@ -23,6 +23,11 @@
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment><![CDATA[Enabling this will limit the successful jobs to 50]]></comment>
                     </field>
+                    <field id="auto_cron_check" translate="label comment" type="select" sortOrder="40" showInDefault="1">
+                        <label>Enable Automatic Cron Check</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment><![CDATA[When enabled, a notification will be shown at the top of the admin pages stating the cron job didn't run in the last 5 minutes. Warning: there's an impact on backend performance when enabled]]></comment>
+                    </field>
                 </group>
             </group>
         </section>

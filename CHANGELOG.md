@@ -1,5 +1,9 @@
 # Changelog
 
+## [8.0.1]
+### Added
+- Possibility to disable 'Cron Not Running' admin notification. Disabling it increases general performance of the backend.
+
 ## [8.0.0]
 ### Added
 - Support PHP 8.x

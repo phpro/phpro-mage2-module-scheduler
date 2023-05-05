@@ -10,6 +10,7 @@ use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Notification\MessageInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Phpro\Scheduler\Config\CronConfiguration;
 use Phpro\Scheduler\Util\DateTimeConverter;
 
 class CronNotRunning implements MessageInterface
@@ -22,6 +23,11 @@ class CronNotRunning implements MessageInterface
      * @var AuthorizationInterface
      */
     private $authorization;
+
+    /**
+     * @var CronConfiguration
+     */
+    private $configuration;
 
     /**
      * @var Collection
@@ -40,11 +46,13 @@ class CronNotRunning implements MessageInterface
 
     public function __construct(
         AuthorizationInterface $authorization,
+        CronConfiguration $configuration,
         Collection $scheduleCollection,
         DateTimeConverter $converter,
         TimezoneInterface $timezone
     ) {
         $this->authorization = $authorization;
+        $this->configuration = $configuration;
         $this->scheduleCollection = $scheduleCollection;
         $this->converter = $converter;
         $this->timezone = $timezone;
@@ -57,7 +65,10 @@ class CronNotRunning implements MessageInterface
 
     public function isDisplayed(): bool
     {
-        if (!$this->authorization->isAllowed('Phpro_Scheduler::schedule')) {
+        if (
+            !$this->authorization->isAllowed('Phpro_Scheduler::schedule') ||
+            !$this->configuration->isAutoCronCheckEnabled()
+        ) {
             return false;
         }
         /** @var Schedule $schedule */
