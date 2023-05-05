@@ -11,6 +11,7 @@ class CronConfiguration
     private const XML_TIMELINE_LIMIT = 'system/cron/cron_general/timeline_view_limit';
     private const XML_LIMIT_SUCCESSFUL = 'system/cron/cron_general/limit_successful_jobs';
     public const XML_RUNNING_LIFETIME = 'system/cron/cron_general/running_job_lifetime';
+    private const XML_AUTO_CRON_CHECK = 'system/cron/cron_general/auto_cron_check';
 
     /**
      * @var ScopeConfigInterface
@@ -37,5 +38,10 @@ class CronConfiguration
     public function limitSuccessfulJobs(): bool
     {
         return (bool) $this->config->getValue(self::XML_LIMIT_SUCCESSFUL);
+    }
+
+    public function isAutoCronCheckEnabled(): bool
+    {
+        return (bool) $this->config->getValue(self::XML_AUTO_CRON_CHECK);
     }
 }
