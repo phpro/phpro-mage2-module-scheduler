@@ -71,12 +71,8 @@ class CronNotRunning implements MessageInterface
         ) {
             return false;
         }
-        /** @var Schedule $schedule */
-        $schedule = $this->scheduleCollectionFactory
-            ->create()
-            ->setPageSize(1)
-            ->addOrder('created_at')
-            ->getFirstItem();
+
+        $schedule = $this->getLastCronSchedule();
 
         if (!$schedule->getCreatedAt()) {
             return true;
@@ -89,12 +85,7 @@ class CronNotRunning implements MessageInterface
 
     public function getText(): Phrase
     {
-        /** @var Schedule $schedule */
-        $schedule = $this->scheduleCollectionFactory
-            ->create()
-            ->setPageSize(1)
-            ->addOrder('created_at')
-            ->getFirstItem();
+        $schedule = $this->getLastCronSchedule();
 
         $lastRun = !$schedule->getCreatedAt()
             ? self::NEVER_RAN_MESSAGE
@@ -109,5 +100,15 @@ class CronNotRunning implements MessageInterface
     public function getSeverity(): int
     {
         return self::SEVERITY_CRITICAL;
+    }
+
+    private function getLastCronSchedule(): Schedule
+    {
+        /** @var Schedule */
+        return $this->scheduleCollectionFactory
+            ->create()
+            ->setPageSize(1)
+            ->addOrder('created_at')
+            ->getFirstItem();
     }
 }
