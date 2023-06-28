@@ -20,8 +20,7 @@
     "require-dev": {
         "magento/magento-coding-standard": "*",
         "phpro/grumphp-shim": "^1.0",
-        "phpunit/phpunit": "~9.5.0",
-        "vimeo/psalm": "^4.23"
+        "phpunit/phpunit": "~9.5.0"
     },
     "autoload": {
         "files": [
