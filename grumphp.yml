@@ -1,7 +1,5 @@
 grumphp:
   tasks:
-    psalm:
-      config: psalm.xml
     phpcs:
       standard: Magento2
       warning_severity: 0
