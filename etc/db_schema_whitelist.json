@@ -1,0 +1,16 @@
+{
+    "disabled_crons": {
+        "column": {
+            "job_code": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "cron_schedule": {
+        "index": {
+            "CRON_SCHEDULE_CREATED_AT": true
+        }
+    }
+}

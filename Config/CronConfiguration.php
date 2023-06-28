@@ -8,10 +8,10 @@ use Phpro\Scheduler\Config\Source\TimelineLimit;
 
 class CronConfiguration
 {
-    private const XML_TIMELINE_LIMIT = 'system/cron/cron_general/timeline_view_limit';
-    private const XML_LIMIT_SUCCESSFUL = 'system/cron/cron_general/limit_successful_jobs';
-    public const XML_RUNNING_LIFETIME = 'system/cron/cron_general/running_job_lifetime';
-    private const XML_AUTO_CRON_CHECK = 'system/cron/cron_general/auto_cron_check';
+    public const XML_TIMELINE_LIMIT = 'system/cron_phpro/timeline_view_limit';
+    public const XML_LIMIT_SUCCESSFUL = 'system/cron_phpro/limit_successful_jobs';
+    public const XML_RUNNING_LIFETIME = 'system/cron_phpro/running_job_lifetime';
+    public const XML_AUTO_CRON_CHECK = 'system/cron_phpro/auto_cron_check';
 
     /**
      * @var ScopeConfigInterface

@@ -1,4 +1,11 @@
 # Changelog
+## [8.0.2]
+### Added
+- db_schema_whitelist.json has been added
+### Fixed
+- Fixed configuration not being loaded by default due to incompatibilities with Adobe Commerce. Cron Groups config by default is overriding the 'cron' path for system config.
+- Fixed the module loading the full cron collection to grab the last. This has been changed to a query that returns 1 result.
+- We added an index on the 'created_at' field of cron_schedule to speed up loading the recent cron job message.
 
 ## [8.0.1]
 ### Added

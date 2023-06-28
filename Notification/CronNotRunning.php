@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phpro\Scheduler\Notification;
 
 use Magento\Cron\Model\Schedule;
-use Magento\Cron\Model\ResourceModel\Schedule\Collection;
+use Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Notification\MessageInterface;
 use Magento\Framework\Phrase;
@@ -30,9 +30,9 @@ class CronNotRunning implements MessageInterface
     private $configuration;
 
     /**
-     * @var Collection
+     * @var CollectionFactory
      */
-    private $scheduleCollection;
+    private $scheduleCollectionFactory;
 
     /**
      * @var DateTimeConverter
@@ -47,13 +47,13 @@ class CronNotRunning implements MessageInterface
     public function __construct(
         AuthorizationInterface $authorization,
         CronConfiguration $configuration,
-        Collection $scheduleCollection,
+        CollectionFactory $scheduleCollectionFactory,
         DateTimeConverter $converter,
         TimezoneInterface $timezone
     ) {
         $this->authorization = $authorization;
         $this->configuration = $configuration;
-        $this->scheduleCollection = $scheduleCollection;
+        $this->scheduleCollectionFactory = $scheduleCollectionFactory;
         $this->converter = $converter;
         $this->timezone = $timezone;
     }
@@ -72,7 +72,12 @@ class CronNotRunning implements MessageInterface
             return false;
         }
         /** @var Schedule $schedule */
-        $schedule = $this->scheduleCollection->getLastItem();
+        $schedule = $this->scheduleCollectionFactory
+            ->create()
+            ->setPageSize(1)
+            ->addOrder('created_at')
+            ->getFirstItem();
+
         if (!$schedule->getCreatedAt()) {
             return true;
         }
@@ -85,7 +90,12 @@ class CronNotRunning implements MessageInterface
     public function getText(): Phrase
     {
         /** @var Schedule $schedule */
-        $schedule = $this->scheduleCollection->getLastItem();
+        $schedule = $this->scheduleCollectionFactory
+            ->create()
+            ->setPageSize(1)
+            ->addOrder('created_at')
+            ->getFirstItem();
+
         $lastRun = !$schedule->getCreatedAt()
             ? self::NEVER_RAN_MESSAGE
             : $this->timezone->date(new \DateTime($schedule->getCreatedAt()))->format('Y-m-d H:i:s');
